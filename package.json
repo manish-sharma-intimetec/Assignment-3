@@ -1,0 +1,17 @@
+{
+  "name": "assignment-3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "npx nodemon app",
+    "start": "node app"
+  },
+  "author": "Manish",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.3.2",
+    "validator": "^13.11.0"
+  }
+}
