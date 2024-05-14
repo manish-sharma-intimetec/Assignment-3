@@ -6,13 +6,13 @@ exports.signUp = async (request, response) => {
 
     try {
         const newUser = await User.create(request.body);
-        const token = jwt.sign({id: newUser._id}, 'secret_key_123', {
+        const authToken = jwt.sign({ id: newUser._id }, 'secret_key_123', {
             expiresIn: '90d'
         });
 
         response.status(201).json({
             status: 'success',
-            token,
+            authToken,
             data: {
                 user: newUser
             }
@@ -22,16 +22,24 @@ exports.signUp = async (request, response) => {
     }
 }
 
-exports.signIn = async (request, response) => {
+exports.login = async (request, response) => {
 
     try {
-        const newUser = await User.findOne({ email: request.body.email, password: request.body.password }).select('-password -__v');
+        const email = request.body.email;
+        const password = request.body.password;
 
-        response.status(201).json({
+        if (!email || !password) {
+            // error throwing
+        }
+
+        const userInDB = await User.findOne({email: email}).select('+password');
+
+        const isPasswordMatched = userInDB.matchPassword(password, userInDB.password);
+
+        const authToken = '';
+        response.status(200).json({
             status: 'success',
-            data: {
-                user: newUser
-            }
+            authToken
         });
     } catch (error) {
         response.status(400).json({ error: error.message });

@@ -17,9 +17,17 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, 'Please Enter Password.']
+        required: [true, 'Please Enter Password.'],
+        select: false
     }
 });
+
+userSchema.methods.matchPassword = function (candidatePassword, userInDBPassword) {
+    if (candidatePassword === userInDBPassword) {
+        return true;
+    }
+    return false;
+}
 
 
 const User = mongoose.model('User', userSchema);
